@@ -113,13 +113,16 @@ def translate_and_compose(input_file, output_file, src_lang: str, target_lang: s
     if len(subtitle) == len(translated_list):
         if both:
             for i in range(len(subtitle)):
-                subtitle[i].content = translated_list[i] + '\n' + subtitle[i].content.replace('\n', ' ')
+                subtitle[i].content = subtitle[i].content.replace('\n', ' ') + '\n' + translated_list[i]
         else:
             for i in range(len(subtitle)):
                 subtitle[i].content = translated_list[i]
     else:
-        print('Error')
-        return
+        for i in range(len(subtitle)):
+            try:
+                subtitle[i].content = subtitle[i].content.replace('\n', ' ') + '\n' + translated_list[i]
+            except IndexError:
+                pass
 
     with open(output_file, 'w', encoding='UTF-8') as f:
         f.write(srt.compose(subtitle))

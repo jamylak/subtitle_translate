@@ -115,9 +115,12 @@ class Translator:
         result = self.__translate(text, src_lang, target_lang)
         obj_result = json.loads(result)
 
-        list_sentence = [x[0] for x in obj_result[0][:-1]]
+        try:
+            list_sentence = [x[0] for x in obj_result[0][:-1]]
 
-        return ''.join(list_sentence)
+            return ''.join(list_sentence)
+        except TypeError:
+            return ''
 
     def translate_lines(self, text_list: list, src_lang: str, target_lang: str) -> str:
         """
