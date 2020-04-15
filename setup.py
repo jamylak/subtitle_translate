@@ -8,5 +8,9 @@ setup(name='subtitle_translate',
       author='Jane Doe',
       author_email='user@email.com',
       packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
+      install_requires=[
+          'pyexecjs',
+          'srt',
+      ],
       license='LICENSE.txt',
     )
