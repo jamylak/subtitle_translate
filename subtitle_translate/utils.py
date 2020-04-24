@@ -105,6 +105,9 @@ def translate_and_compose(input_file, output_file, src_lang: str, target_lang: s
     srt_file = open(input_file, encoding=encoding)
     subtitle = list(srt.parse(srt_file.read()))
 
+    # filter out empty subs
+    subtitle = [sub for sub in subtitle if sub.content.strip()]
+
     if mode == 'naive':
         translated_list = simple_translate_srt(subtitle, src_lang, target_lang)
     else:
@@ -118,11 +121,13 @@ def translate_and_compose(input_file, output_file, src_lang: str, target_lang: s
             for i in range(len(subtitle)):
                 subtitle[i].content = translated_list[i]
     else:
-        for i in range(len(subtitle)):
-            try:
-                subtitle[i].content = subtitle[i].content.replace('\n', ' ') + '\n' + translated_list[i]
-            except IndexError:
-                pass
+        from pprint import pprint
+        print('Error')
+        pprint("Subtitles")
+        pprint(subtitle)
+        pprint("translated_list")
+        pprint(translated_list)
+        print('Error')
 
     with open(output_file, 'w', encoding='UTF-8') as f:
         f.write(srt.compose(subtitle))
